@@ -1,13 +1,16 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { useNavigation } from '@react-navigation/native';
+
 
 const AcoesPesquisa = () => {
+  const navigation = useNavigation();
   return (
     <View style={styles.container}> {/* Container principal da tela */}
       {/* <Text style={styles.title}>Carnaval</Text> */} {/* Título comentado */}
       <View style={styles.buttonContainer}> {/* Container para os botões */}
-        <TouchableOpacity style={styles.button}> {/* Botão "Modificar" */}
+        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('ModificarPesquisa')}> {/* Botão "Modificar" */}
           <Icon name="edit-document" size={40} color="#FFFFFF" /> {/* Ícone */}
           <Text style={styles.buttonText}>Modificar</Text> {/* Texto do botão */}
         </TouchableOpacity>

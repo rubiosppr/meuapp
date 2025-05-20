@@ -6,7 +6,8 @@ import 'react-native-gesture-handler';
 import Login from "./src/screens/Login";
 import DrawerNavigator from "./src/components/DrawerNavigator"
 import NovaConta from "./src/screens/NovaConta";
-
+import PopUp from './src/screens/PopUp';
+import ModificarPesquisa from './src/screens/ModificarPesquisa';
 
 const Stack = createStackNavigator();
 const App = () => {
@@ -36,6 +37,15 @@ const App = () => {
         <Stack.Screen options={{headerShown: false}}
           name="DrawerNavigator"
           component={DrawerNavigator}
+        />
+        <Stack.Screen 
+          name="PopUp"
+          component={PopUp}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen options={{ headerShown: false}}
+          name="ModificarPesquisa"
+          component={ModificarPesquisa}
         />
       </Stack.Navigator>
     </NavigationContainer>

@@ -12,9 +12,9 @@ function Home(){
                 <TextInput style={styles.stdInputBox} placeholder='Insira o termo de busca...'/>
             </View>
             <View style={styles.midleSection}>
-                <Image style={styles.images} source={require('D:/DownloadD/meuapp/assets/placeholder.jpg')}/>
-                <Image style={styles.images} source={require('D:/DownloadD/meuapp/assets/placeholder.jpg')}/>
-                <Image style={styles.images} source={require('D:/DownloadD/meuapp/assets/placeholder.jpg')}/>
+                <Image style={styles.images} source={require('C:/Users/vinim/Downloads/ES47A/meuapp/assets/placeholder.jpg')}/>
+                <Image style={styles.images} source={require('C:/Users/vinim/Downloads/ES47A/meuapp/assets/placeholder.jpg')}/>
+                <Image style={styles.images} source={require('C:/Users/vinim/Downloads/ES47A/meuapp/assets/placeholder.jpg')}/>
             </View>
             <View style={styles.bottomSection}>
                 <TouchableOpacity style={styles.bottomButtonSearch}>
