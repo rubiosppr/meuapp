@@ -28,6 +28,10 @@ function Login(){
   const createAccount = () =>{
     navigation.navigate('NovaConta')
   }
+  const RecuperarAcc = () =>{
+    navigation.navigate('RecuperarSenha')
+  }
+
     return(
         <View style={styles.container}>
             <View style={styles.topSection}>
@@ -49,8 +53,8 @@ function Login(){
                     <Text style={styles.buttonTextBottom} onPress={createAccount}>Criar minha conta</Text>
                     </TouchableOpacity>
                 <TouchableOpacity style={styles.bottomButtonPassword}>
-                    <Text style={styles.buttonTextBottom}>Esqueci minha senha</Text>
-                </TouchableOpacity>
+                    <Text style={styles.buttonTextBottom} onPress={RecuperarAcc}>Esqueci minha senha</Text>
+                    </TouchableOpacity>
             </View>
         </View>
     )

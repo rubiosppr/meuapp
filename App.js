@@ -6,6 +6,7 @@ import 'react-native-gesture-handler';
 import Login from "./src/screens/Login";
 import DrawerNavigator from "./src/components/DrawerNavigator"
 import NovaConta from "./src/screens/NovaConta";
+import RecuperarSenha from "./src/screens/RecuperarSenha";
 import PopUp from './src/screens/PopUp';
 import ModificarPesquisa from './src/screens/ModificarPesquisa';
 
@@ -33,6 +34,22 @@ const App = () => {
           }}
           name="NovaConta"
           component={NovaConta}
+        />
+        <Stack.Screen
+        options={{
+            headerStyle: {
+              backgroundColor: '#2B1D62', // Cor roxa do header
+            },
+            title: 'RecuperarSenha',
+            headerTitle: 'Recuperar Senha',
+            headerTintColor: '#fff', // Cor do texto no header
+            headerTitleStyle:{
+              fontFamily:'AveriaLibre-Regular',
+              fontSize: 36
+            }
+          }}
+          name="RecuperarSenha"
+          component={RecuperarSenha}
         />
         <Stack.Screen options={{headerShown: false}}
           name="DrawerNavigator"
