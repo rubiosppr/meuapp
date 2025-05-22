@@ -9,11 +9,20 @@ function RecuperarSenha(){
     const [txtWarning, setWarning] = useState(false)
     const navigation = useNavigation();
 
-    const handleCreation = () => {
+    const handleEmail = () => {
 
-      if(!email){
-        setWarning(true)
-      }
+      console.log("Tentou enviar Email")
+      const emailRegex = /^(([^<>()\[\]\.,;:\s@"]+(\.[^<>()\[\]\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      
+    if(emailRegex.test(email)){
+      setWarning(false)
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'DrawerNavigator' }],
+      });
+    }else{
+      setWarning(true)
+    }
     }
     
     return(
@@ -22,7 +31,7 @@ function RecuperarSenha(){
                 <Text style={styles.stdText}>E-mail</Text>
                 <TextInput style={styles.stdInputBox} value={email} onChangeText={setEmail} secureTextEntry/>
                 {txtWarning ? (<Text style={styles.warning}>E-mail parece ser inválido</Text>) : (<Text></Text>)}
-                <TouchableOpacity style={styles.middleButtonLogin} onPress={handleCreation}>
+                <TouchableOpacity style={styles.middleButtonLogin} onPress={handleEmail}>
                     <Text style={styles.buttonText}>RECUPERAR</Text>
                 </TouchableOpacity>
             </View>
