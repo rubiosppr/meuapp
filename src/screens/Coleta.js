@@ -1,31 +1,39 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons'; // Importa os ícones da biblioteca MaterialIcons
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import { useNavigation } from '@react-navigation/native';
 
 const Coleta = () => {
+  const navigation = useNavigation();
+
+
+  const goToAgradecimento = () => {
+    navigation.navigate('AgradecimentoParticipacao');
+  };
+
   return (
-    <View style={styles.container}> {/* Container principal da tela */}
-      <Text style={styles.title}>O que você achou do Carnaval 2024?</Text> {/* Título da tela */}
-      <View style={styles.iconsContainer}> {/* Container para os ícones */}
-        <TouchableOpacity style={styles.iconWrapper}> {/* Botão para "Péssimo" */}
-          <Icon name="sentiment-very-dissatisfied" size={50} color="#FF0000" /> {/* Ícone vermelho */}
-          <Text style={styles.iconText}>Péssimo</Text> {/* Texto abaixo do ícone */}
+    <View style={styles.container}>
+      <Text style={styles.title}>O que você achou do Carnaval 2024?</Text>
+      <View style={styles.iconsContainer}>
+        <TouchableOpacity style={styles.iconWrapper} onPress={goToAgradecimento}>
+          <Icon name="sentiment-very-dissatisfied" size={50} color="#FF0000" />
+          <Text style={styles.iconText}>Péssimo</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.iconWrapper}> {/* Botão para "Ruim" */}
-          <Icon name="sentiment-dissatisfied" size={50} color="#FF4500" /> {/* Ícone laranja */}
-          <Text style={styles.iconText}>Ruim</Text> {/* Texto abaixo do ícone */}
+        <TouchableOpacity style={styles.iconWrapper} onPress={goToAgradecimento}>
+          <Icon name="sentiment-dissatisfied" size={50} color="#FF4500" />
+          <Text style={styles.iconText}>Ruim</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.iconWrapper}> {/* Botão para "Neutro" */}
-          <Icon name="sentiment-neutral" size={50} color="#FFD700" /> {/* Ícone amarelo */}
-          <Text style={styles.iconText}>Neutro</Text> {/* Texto abaixo do ícone */}
+        <TouchableOpacity style={styles.iconWrapper} onPress={goToAgradecimento}>
+          <Icon name="sentiment-neutral" size={50} color="#FFD700" />
+          <Text style={styles.iconText}>Neutro</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.iconWrapper}> {/* Botão para "Bom" */}
-          <Icon name="sentiment-satisfied" size={50} color="#32CD32" /> {/* Ícone verde claro */}
-          <Text style={styles.iconText}>Bom</Text> {/* Texto abaixo do ícone */}
+        <TouchableOpacity style={styles.iconWrapper} onPress={goToAgradecimento}>
+          <Icon name="sentiment-satisfied" size={50} color="#32CD32" />
+          <Text style={styles.iconText}>Bom</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.iconWrapper}> {/* Botão para "Excelente" */}
-          <Icon name="sentiment-very-satisfied" size={50} color="#008000" /> {/* Ícone verde escuro */}
-          <Text style={styles.iconText}>Excelente</Text> {/* Texto abaixo do ícone */}
+        <TouchableOpacity style={styles.iconWrapper} onPress={goToAgradecimento}>
+          <Icon name="sentiment-very-satisfied" size={50} color="#008000" />
+          <Text style={styles.iconText}>Excelente</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -34,35 +42,35 @@ const Coleta = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1, // Ocupa todo o espaço disponível
-    backgroundColor: '#372775', // Cor de fundo roxa
-    justifyContent: 'center', // Centraliza verticalmente
-    alignItems: 'center', // Centraliza horizontalmente
-    padding: 16, // Espaçamento interno
+    flex: 1,
+    backgroundColor: '#372775',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 16,
   },
   title: {
-    color: '#FFFFFF', // Cor do texto branca
-    fontSize: 20, // Tamanho da fonte
-    marginBottom: 30, // Espaçamento inferior
-    textAlign: 'center', // Centraliza o texto
-    fontFamily: 'AveriaLibre-Regular', // Fonte personalizada
+    color: '#FFFFFF',
+    fontSize: 20,
+    marginBottom: 30,
+    textAlign: 'center',
+    fontFamily: 'AveriaLibre-Regular',
   },
   iconsContainer: {
-    flexDirection: 'row', // Alinha os ícones horizontalmente
-    justifyContent: 'space-between', // Espaçamento uniforme entre os ícones
-    width: '100%', // Ocupa toda a largura disponível
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '100%',
   },
   iconWrapper: {
-    alignItems: 'center', // Centraliza os ícones e textos
-    width: '20%', // Cada ícone ocupa 20% da largura
+    alignItems: 'center',
+    width: '20%',
   },
   iconText: {
-    color: '#FFFFFF', // Cor do texto branca
-    fontSize: 12, // Tamanho da fonte
-    marginTop: 8, // Espaçamento superior
-    textAlign: 'center', // Centraliza o texto
-    fontFamily: 'AveriaLibre-Regular', // Fonte personalizada
+    color: '#FFFFFF',
+    fontSize: 12,
+    marginTop: 8,
+    textAlign: 'center',
+    fontFamily: 'AveriaLibre-Regular',
   },
 });
 
-export default Coleta; // Exporta o componente
+export default Coleta;

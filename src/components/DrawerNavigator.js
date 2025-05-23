@@ -1,9 +1,15 @@
 import React from 'react';
-import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList, DrawerItem } from '@react-navigation/drawer';
+import {
+  createDrawerNavigator,
+  DrawerContentScrollView,
+  DrawerItemList,
+  DrawerItem
+} from '@react-navigation/drawer';
 import { View, Text, StyleSheet } from 'react-native';
 import AcoesPesquisa from '../screens/AcoesPesquisa';
 import NovaPesquisa from '../screens/NovaPesquisa';
 import Coleta from '../screens/Coleta';
+import Home from '../screens/Home';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useNavigation } from '@react-navigation/native';
 
@@ -56,25 +62,33 @@ const DrawerNavigator = () => {
       }}
     >
       <Drawer.Screen
+            name="Home"
+            component={Home}
+            options={({ route }) => ({
+              headerTitle: route.name
+            })}
+          />
+      <Drawer.Screen
         name="Pesquisas"
         component={AcoesPesquisa}
-        options={{ headerTitle: '' }}
+        options={({ route }) => ({
+          headerTitle: route.name
+        })}
       />
       <Drawer.Screen
         name="Nova Pesquisa"
         component={NovaPesquisa}
-        options={{ headerTitle: '' }}
+        options={({ route }) => ({
+          headerTitle: route.name
+        })}
       />
       <Drawer.Screen
         name="Coleta"
         component={Coleta}
-        options={{ headerTitle: '' }}
+        options={({ route }) => ({
+          headerTitle: route.name
+        })}
       />
-      {/*<Drawer.Screen
-        name="Modificar"
-        component={ModificarPesquisa}
-        options={{ headerTitle: '' }}
-      />*/}
     </Drawer.Navigator>
   );
 };

@@ -9,6 +9,7 @@ import NovaConta from "./src/screens/NovaConta";
 import RecuperarSenha from "./src/screens/RecuperarSenha";
 import PopUp from './src/screens/PopUp';
 import ModificarPesquisa from './src/screens/ModificarPesquisa';
+import AgradecimentoParticipacao from './src/screens/AgradecimentoParticipacao';
 
 const Stack = createStackNavigator();
 const App = () => {
@@ -64,6 +65,10 @@ const App = () => {
           name="ModificarPesquisa"
           component={ModificarPesquisa}
         />
+         <Stack.Screen options={{ headerShown: false}}
+                  name="AgradecimentoParticipacao"
+                  component={AgradecimentoParticipacao}
+                />
       </Stack.Navigator>
     </NavigationContainer>
   )
