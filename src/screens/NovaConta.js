@@ -19,8 +19,6 @@ function NovaConta(){
         setSenhaMain(senha1);
       }if(!senha1 || !senha2){
         setWarning(true);
-      }else{
-        setWarning(true)
       }
     }
     
