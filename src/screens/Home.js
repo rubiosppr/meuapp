@@ -2,8 +2,10 @@ import React, {useState} from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { useNavigation } from '@react-navigation/native';
 
 function Home(){
+  const navigation = useNavigation();
 
     return(
         <View style={styles.container}> 
@@ -12,12 +14,21 @@ function Home(){
                 <TextInput style={styles.stdInputBox} placeholder='Insira o termo de busca...'/>
             </View>
             <View style={styles.midleSection}>
-                <Image style={styles.images} source={require('../../assets/placeholder.jpg')}/>
-                <Image style={styles.images} source={require('../../assets/placeholder.jpg')}/>
-                <Image style={styles.images} source={require('../../assets/placeholder.jpg')}/>
+             <TouchableOpacity onPress={() => navigation.navigate('AcoesPesquisa')} >
+                <Image style={styles.images} source={require('../../assets/placeholder.jpg')} />
+                </TouchableOpacity>
+
+              <TouchableOpacity onPress={() => navigation.navigate('AcoesPesquisa')} >
+                           <Image style={styles.images} source={require('../../assets/placeholder.jpg')} />
+                           </TouchableOpacity>
+
+                 <TouchableOpacity onPress={() => navigation.navigate('AcoesPesquisa')} >
+                              <Image style={styles.images} source={require('../../assets/placeholder.jpg')} />
+                              </TouchableOpacity>
+
             </View>
             <View style={styles.bottomSection}>
-                <TouchableOpacity style={styles.bottomButtonSearch}>
+                <TouchableOpacity style={styles.bottomButtonSearch} onPress={() => navigation.navigate('NovaPesquisa')}>
                     <Text style={styles.buttonText}>NOVA PESQUISA</Text>
                 </TouchableOpacity>
             </View>
@@ -26,8 +37,8 @@ function Home(){
 }
 const styles = StyleSheet.create({
   container: {
-    flex: 1, // Ocupa todo o espaço disponível
-    backgroundColor: '#2B1D62', // Cor de fundo
+    flex: 1,
+    backgroundColor: '#2B1D62',
   },
   topSection:{
     flex: 0.1,
@@ -68,8 +79,8 @@ const styles = StyleSheet.create({
   bottomButtonSearch: {
     backgroundColor: '#37BD6D',
     width: '100%',
-    padding: 5, // Espaçamento interno
-    alignItems: 'center', // Centraliza o texto horizontalmente
+    padding: 5,
+    alignItems: 'center',
   },
   buttonText: {
     fontFamily: 'AveriaLibre-Regular',

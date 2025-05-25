@@ -18,7 +18,7 @@ const AcoesPesquisa = () => {
             <Text style={styles.buttonText}>Coletar</Text>
             <Text style={styles.buttonText2}>Dados</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Relatorio')}>
             <Icon name="donut-large" size={40} color="#FFFFFF" />
             <Text style={styles.buttonText}>Relatório</Text>
           </TouchableOpacity>

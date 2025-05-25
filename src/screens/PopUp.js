@@ -7,7 +7,7 @@ const PopUp = ({ navigation }) => {
       <View style={styles.modal}>
         <Text style={styles.text}>Tem certeza de apagar essa pesquisa?</Text>
         <View style={styles.buttonsContainer}>
-          <TouchableOpacity style={styles.buttonRed}>
+          <TouchableOpacity style={styles.buttonRed} onPress={() => navigation.navigate('DrawerNavigator', { screen: 'Pesquisas' })}>
             <Text style={styles.buttonText}>SIM</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.buttonBlue} onPress={() => navigation.goBack()}>

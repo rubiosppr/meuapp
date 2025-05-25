@@ -12,10 +12,10 @@ export default function AcoesPesquisaStack() {
         component={AcoesPesquisa}
         options={{
             headerStyle: {
-              backgroundColor: '#2B1D62', // Cor roxa do header
+              backgroundColor: '#2B1D62',
             },
             headerTitle: 'Carnaval',
-            headerTintColor: '#fff', // Cor do texto no header
+            headerTintColor: '#fff',
             headerTitleStyle:{
               fontFamily:'AveriaLibre-Regular',
               fontSize: 36

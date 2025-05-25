@@ -61,8 +61,8 @@ function Login(){
 }
 const styles = StyleSheet.create({
   container: {
-    flex: 1, // Ocupa todo o espaço disponível
-    backgroundColor: '#2B1D62', // Cor de fundo
+    flex: 1,
+    backgroundColor: '#2B1D62',
   },
   warning: {
     color: '#FD7979',
@@ -73,24 +73,25 @@ const styles = StyleSheet.create({
     marginBottom: 10
   },
   topSection: {
-    flex: 1, // Ocupa 25% da tela
+    flex: 1,
     flexDirection: 'row',
-    justifyContent: 'center', // Alinha o conteúdo ao final verticalmente
+    justifyContent: 'center',
     alignSelf: 'center',
-    alignItems: 'center', // Centraliza o conteúdo horizontalmente
+    alignItems: 'center',
     justifyContent: 'space-between',
     width: '50%',
     backgroundColor: '#2B1D62',
     marginTop: 10
   },
   topText: {
-    fontSize: 40,
+    marginRight: 10,
+    fontSize: 28,
     color: '#FFFFFF',
     fontFamily: 'AveriaLibre-Bold'
   },
   middleSection: {
-    flex: 3, // Ocupa 50% da tela
-    justifyContent: 'center', // Centraliza o conteúdo verticalmente
+    flex: 3,
+    justifyContent: 'center',
     width: '65%',
     alignSelf: 'center',
     marginTop: 15
@@ -99,8 +100,8 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     backgroundColor: '#37BD6D',
     width: '100%',
-    padding: 5, // Espaçamento interno
-    alignItems: 'center', // Centraliza o texto horizontalmente
+    padding: 5,
+    alignItems: 'center',
   },
   stdText: {
     color: '#FFFFFF',
@@ -111,48 +112,48 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
   },
   bottomSection: {
-    flex: 2, // Ocupa 25% da tela
-    justifyContent: 'flex-end', // Alinha o conteúdo ao início verticalmente
-    alignItems: 'center', // Centraliza o conteúdo horizontalmente
+    flex: 2,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
     width: '65%',
     alignSelf: 'center',
     marginBottom: 15
   },
   title: {
-    fontSize: 24, // Tamanho da fonte
-    color: '#FFFFFF', // Cor do texto
-    fontFamily: 'AveriaLibre-Bold', // Fonte personalizada
+    fontSize: 24,
+    color: '#FFFFFF',
+    fontFamily: 'AveriaLibre-Bold',
   },
   button: {
-    backgroundColor: '#37BD6D', // Cor de fundo
-    padding: 15, // Espaçamento interno
-    alignItems: 'center', // Centraliza o texto horizontalmente
-    width: '65%', // Largura do botão
+    backgroundColor: '#37BD6D',
+    padding: 15,
+    alignItems: 'center',
+    width: '65%',
   },
   bottomButtonPassword: {
     backgroundColor: '#B0CCDE',
-    padding: 5, // Espaçamento interno
+    padding: 5,
     margin: 5,
-    alignItems: 'center', // Centraliza o texto horizontalmente
+    alignItems: 'center',
     width: '100%'
   },
   bottomButtonAccount: {
     backgroundColor: '#419ED7',
-    padding: 5, // Espaçamento interno
+    padding: 5,
     margin: 5,
-    alignItems: 'center', // Centraliza o texto horizontalmente
-    width: '100%', // Largura do botão
+    alignItems: 'center',
+    width: '100%',
   },
   buttonText: {
-    color: '#FFFFFF', // Cor do texto
-    fontSize: 20, // Tamanho da fonte
-    fontFamily: 'AveriaLibre-Regular', // Fonte personalizada
+    color: '#FFFFFF',
+    fontSize: 20,
+    fontFamily: 'AveriaLibre-Regular',
     alignSelf: 'center'
   },
   buttonTextBottom: {
-    color: '#FFFFFF', // Cor do texto
-    fontSize: 15, // Tamanho da fonte
-    fontFamily: 'AveriaLibre-Regular', // Fonte personalizada
+    color: '#FFFFFF',
+    fontSize: 15,
+    fontFamily: 'AveriaLibre-Regular',
     alignSelf: 'center'
   }
 });

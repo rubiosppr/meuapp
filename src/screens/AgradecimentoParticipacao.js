@@ -1,16 +1,23 @@
-import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import React, { useEffect } from 'react';
+import { View, Text, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 const AgradecimentoParticipacao = () => {
   const navigation = useNavigation();
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      navigation.navigate('Coleta');
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  }, [navigation]);
+
   return (
-<View style={styles.container}>
-<Text style={styles.title}>Obrigado por participar da pesquisa!</Text>
-<Text style={styles.title}>Aguardamos você no próximo ano!</Text>
-</View>
+    <View style={styles.container}>
+      <Text style={styles.title}>Obrigado por participar da pesquisa!</Text>
+      <Text style={styles.title}>Aguardamos você no próximo ano!</Text>
+    </View>
   );
 };
 
@@ -26,22 +33,6 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     fontSize: 20,
     marginBottom: 30,
-    textAlign: 'center',
-    fontFamily: 'AveriaLibre-Regular',
-  },
-  iconsContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '100%',
-  },
-  iconWrapper: {
-    alignItems: 'center',
-    width: '20%',
-  },
-  iconText: {
-    color: '#FFFFFF',
-    fontSize: 12,
-    marginTop: 8,
     textAlign: 'center',
     fontFamily: 'AveriaLibre-Regular',
   },

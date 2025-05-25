@@ -12,10 +12,10 @@ export default function NovaPesquisaStack() {
         component={NovaPesquisa}
         options={{
             headerStyle: {
-              backgroundColor: '#2B1D62', // Cor roxa do header
+              backgroundColor: '#2B1D62',
             },
             headerTitle: 'Nova Pesquisa',
-            headerTintColor: '#fff', // Cor do texto no header
+            headerTintColor: '#fff',
             headerTitleStyle:{
               fontFamily:'AveriaLibre-Regular',
               fontSize: 36

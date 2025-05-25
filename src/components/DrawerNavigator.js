@@ -6,9 +6,6 @@ import {
   DrawerItem
 } from '@react-navigation/drawer';
 import { View, Text, StyleSheet } from 'react-native';
-import AcoesPesquisa from '../screens/AcoesPesquisa';
-import NovaPesquisa from '../screens/NovaPesquisa';
-import Coleta from '../screens/Coleta';
 import Home from '../screens/Home';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useNavigation } from '@react-navigation/native';
@@ -42,52 +39,22 @@ const DrawerNavigator = () => {
     <Drawer.Navigator
       drawerContent={(props) => <CustomDrawerContent {...props} />}
       screenOptions={{
-        headerStyle: {
-          backgroundColor: '#2B1D62',
-        },
-        drawerStyle: {
-          backgroundColor: '#372775',
-        },
+        headerStyle: { backgroundColor: '#2B1D62' },
+        drawerStyle: { backgroundColor: '#372775' },
         drawerActiveTintColor: '#fff',
         drawerInactiveTintColor: '#fff',
-        drawerLabelStyle: {
-          fontFamily: 'AveriaLibre-Regular',
-          fontSize: 18,
-        },
+        drawerLabelStyle: { fontFamily: 'AveriaLibre-Regular', fontSize: 18 },
         headerTintColor: '#fff',
-        headerTitleStyle: {
-          fontFamily: 'AveriaLibre-Regular',
-          fontSize: 20
-        }
+        headerTitleStyle: { fontFamily: 'AveriaLibre-Regular', fontSize: 20 },
+        headerShown: true
       }}
     >
-      <Drawer.Screen
-            name="Home"
-            component={Home}
-            options={({ route }) => ({
-              headerTitle: route.name
-            })}
-          />
-      <Drawer.Screen
-        name="Pesquisas"
-        component={AcoesPesquisa}
-        options={({ route }) => ({
-          headerTitle: route.name
-        })}
-      />
-      <Drawer.Screen
-        name="Nova Pesquisa"
-        component={NovaPesquisa}
-        options={({ route }) => ({
-          headerTitle: route.name
-        })}
-      />
-      <Drawer.Screen
-        name="Coleta"
-        component={Coleta}
-        options={({ route }) => ({
-          headerTitle: route.name
-        })}
+      <Drawer.Screen 
+        name="Pesquisas" 
+        component={Home}
+        options={{
+          headerTitle: 'Pesquisas'
+        }}
       />
     </Drawer.Navigator>
   );
