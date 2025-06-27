@@ -3,26 +3,38 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {useNavigation} from '@react-navigation/native';
+import { getDocs, collection, query, where } from "firebase/firestore";
+import app from '../config/firebase';
+import { initializeFirestore } from "firebase/firestore";
 
 function Login(){
-    const [email, setEmail] = useState('');
-    const [senha, setSenha] = useState('');
-    const [txtWarning, setWarning] = useState(false)
-    const navigation = useNavigation();
+  const [email, setEmail] = useState('');
+  const [senha, setSenha] = useState('');
+  const [txtWarning, setWarning] = useState(false)
+  const navigation = useNavigation();
 
-  const handleLogin = () => {
+  const db = initializeFirestore(app, {experimentalForceLongPolling: true});
+  const userCollection = collection(db, 'users');
 
-      console.log("Tentou enviar Email")
-      const emailRegex = /^(([^<>()\[\]\.,;:\s@"]+(\.[^<>()\[\]\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-      
-    if(emailRegex.test(email)){
-      setWarning(false)
+  const handleLogin = async () => {
+    const emailRegex = /^(([^<>()\[\]\.,;:\s@"]+(\.[^<>()\[\]\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+    if (!emailRegex.test(email) || !senha) {
+      setWarning(true);
+      return;
+    }
+
+    const q = query(userCollection, where("email", "==", email), where("senha", "==", senha));
+    const querySnapshot = await getDocs(q);
+
+    if (!querySnapshot.empty) {
+      setWarning(false);
       navigation.reset({
         index: 0,
         routes: [{ name: 'DrawerNavigator' }],
       });
-    }else{
-      setWarning(true)
+    } else {
+      setWarning(true);
     }
   }
   const createAccount = () =>{

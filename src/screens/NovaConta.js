@@ -3,25 +3,54 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {useNavigation} from '@react-navigation/native';
+import { initializeFirestore, collection, addDoc} from "firebase/firestore";
+import app from '../config/firebase';
+
+const db = initializeFirestore(app, {experimentalForceLongPolling: true});
+const userCollection = collection(db, 'users');
+
+
 
 function NovaConta(){
     const [email, setEmail] = useState('');
     const [senha1, setSenha1] = useState('');
     const [senha2, setSenha2] = useState('');
-    const [senhaMain, setSenhaMain] = useState('');
     const [txtWarning, setWarning] = useState(false)
     const navigation = useNavigation();
-
-    const handleCreation = () => {
-
-      if(senha1 === senha2){
-        setWarning(false)
-        setSenhaMain(senha1);
-      }if(!senha1 || !senha2){
-        setWarning(true);
-      }
-    }
     
+    const handleCreation = () => {
+      const emailRegex = /^(([^<>()\[\]\.,;:\s@"]+(\.[^<>()\[\]\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+      if (!email || !senha1 || !senha2) {
+        setWarning(true);
+        return;
+      }
+      if (!emailRegex.test(email)) {
+        setWarning(true);
+        return;
+      }
+      if (senha1 !== senha2) {
+        setWarning(true);
+        return;
+      }
+      setWarning(false);
+      const docUser = {
+        email: email,
+        senha: senha1
+      };
+
+      addDoc(userCollection, docUser)
+        .then((docRef) => {
+          console.log("Usuário cadastrado com sucesso!" + docRef.id);
+          // Você pode navegar para outra tela aqui, se quiser
+        })
+        .catch((error) => {
+          console.error("Erro ao cadastrar usuário: ", error);
+        });
+
+      navigation.navigate('Login');
+    }
+
     return(
         <View style={styles.container}>
             <View style={styles.middleSection}>
@@ -31,7 +60,7 @@ function NovaConta(){
                 <TextInput style={styles.stdInputBox} value={senha1} onChangeText={setSenha1} secureTextEntry/>
                 <Text style={styles.stdText}>Repetir Senha</Text>
                 <TextInput style={styles.stdInputBox} value={senha2} onChangeText={setSenha2} secureTextEntry/>
-                {txtWarning ? (<Text style={styles.warning}>O campo repetir senha difere da senha</Text>) : (<Text></Text>)}
+                {txtWarning ? (<Text style={styles.warning}>E-mail inválido ou senhas não coincidem</Text>) : (<Text></Text>)}
                 <TouchableOpacity style={styles.middleButtonLogin} onPress={handleCreation}>
                     <Text style={styles.buttonText}>CADASTRAR</Text>
                 </TouchableOpacity>
