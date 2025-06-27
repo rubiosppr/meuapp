@@ -2,36 +2,45 @@ import { useNavigation } from '@react-navigation/native';
 import React, {useState} from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import { auth_mod } from '../config/firebase';
+import { sendPasswordResetEmail } from 'firebase/auth';
 
 function RecuperarSenha(){
     const [email, setEmail] = useState('');
     const [txtWarning, setWarning] = useState(false)
+    const [successMsg, setSuccessMsg] = useState(false)
     const navigation = useNavigation();
 
-    const handleEmail = () => {
-
-      console.log("Tentou enviar Email")
+    const handleNewPassword = () => {
       const emailRegex = /^(([^<>()\[\]\.,;:\s@"]+(\.[^<>()\[\]\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
       
-    if(emailRegex.test(email)){
-      setWarning(false)
-      navigation.reset({
-        index: 0,
-        routes: [{ name: 'DrawerNavigator' }],
-      });
-    }else{
-      setWarning(true)
-    }
+      if(emailRegex.test(email)){
+        sendPasswordResetEmail(auth_mod, email).then(() => {
+          console.log("E-mail de recuperação enviado com sucesso!");
+          setWarning(false)
+          setSuccessMsg(true)
+        }).catch((error) => {
+          console.error("Erro ao enviar e-mail de recuperação: ", error);
+          setWarning(true)
+          setSuccessMsg(false)
+        });
+      }else{
+        setWarning(true)
+        setSuccessMsg(false)
+      }
     }
     
     return(
         <View style={styles.container}>
             <View style={styles.middleSection}>                
                 <Text style={styles.stdText}>E-mail</Text>
-                <TextInput style={styles.stdInputBox} value={email} onChangeText={setEmail} secureTextEntry/>
-                {txtWarning ? (<Text style={styles.warning}>E-mail parece ser inválido</Text>) : (<Text></Text>)}
-                <TouchableOpacity style={styles.middleButtonLogin} onPress={handleEmail}>
+                <TextInput style={styles.stdInputBox} value={email} onChangeText={setEmail}/>
+                {txtWarning ? (
+                  <Text style={styles.warning}>E-mail parece ser inválido</Text>
+                ) : successMsg ? (
+                  <Text style={styles.success}>E-mail enviado caso ele esteja registrado!</Text>
+                ) : (<Text></Text>)}
+                <TouchableOpacity style={styles.middleButtonLogin} onPress={handleNewPassword}>
                     <Text style={styles.buttonText}>RECUPERAR</Text>
                 </TouchableOpacity>
             </View>
@@ -46,6 +55,11 @@ const styles = StyleSheet.create({
   },
   warning: {
     color: '#FD7979',
+    fontFamily: 'AveriaLibre-Regular',
+    marginBottom: 10
+  },
+  success: {
+    color: '#37BD6D',
     fontFamily: 'AveriaLibre-Regular',
     marginBottom: 10
   },

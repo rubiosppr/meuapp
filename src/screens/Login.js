@@ -3,27 +3,33 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {useNavigation} from '@react-navigation/native';
+import { auth_mod } from '../config/firebase';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 
 function Login(){
-    const [email, setEmail] = useState('');
-    const [senha, setSenha] = useState('');
-    const [txtWarning, setWarning] = useState(false)
-    const navigation = useNavigation();
+  const [email, setEmail] = useState('');
+  const [senha, setSenha] = useState('');
+  const [txtWarning, setWarning] = useState(false)
+  const navigation = useNavigation();
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
+    const emailRegex = /^(([^<>()\[\]\.,;:\s@"]+(\.[^<>()\[\]\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-      console.log("Tentou enviar Email")
-      const emailRegex = /^(([^<>()\[\]\.,;:\s@"]+(\.[^<>()\[\]\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-      
-    if(emailRegex.test(email)){
-      setWarning(false)
-      navigation.reset({
-        index: 0,
-        routes: [{ name: 'DrawerNavigator' }],
-      });
-    }else{
-      setWarning(true)
+    if (!emailRegex.test(email) || !senha) {
+      setWarning(true);
+      return;
     }
+    signInWithEmailAndPassword(auth_mod, email, senha).then((userCredential) => {
+        setWarning(false);
+        console.log("Usuário logado com sucesso!", JSON.stringify(userCredential.user.uid));
+        navigation.reset({
+          index: 0,
+          routes: [{ name: 'DrawerNavigator' }],
+        });
+      }).catch((error) => {
+        setWarning(true);
+        console.log("Erro ao fazer login: ", JSON.stringify(error));
+      });
   }
   const createAccount = () =>{
     navigation.navigate('NovaConta')

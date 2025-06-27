@@ -16,6 +16,7 @@ import Coleta from './src/screens/Coleta';
 import Home from './src/screens/Home';
 import Relatorio from './src/screens/Relatorio';
 
+
 const Stack = createStackNavigator();
 const App = () => {
   return(
