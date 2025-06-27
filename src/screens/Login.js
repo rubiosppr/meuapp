@@ -3,18 +3,14 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {useNavigation} from '@react-navigation/native';
-import { getDocs, collection, query, where } from "firebase/firestore";
-import app from '../config/firebase';
-import { initializeFirestore } from "firebase/firestore";
+import { auth_mod } from '../config/firebase';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 
 function Login(){
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
   const [txtWarning, setWarning] = useState(false)
   const navigation = useNavigation();
-
-  const db = initializeFirestore(app, {experimentalForceLongPolling: true});
-  const userCollection = collection(db, 'users');
 
   const handleLogin = async () => {
     const emailRegex = /^(([^<>()\[\]\.,;:\s@"]+(\.[^<>()\[\]\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -23,19 +19,17 @@ function Login(){
       setWarning(true);
       return;
     }
-
-    const q = query(userCollection, where("email", "==", email), where("senha", "==", senha));
-    const querySnapshot = await getDocs(q);
-
-    if (!querySnapshot.empty) {
-      setWarning(false);
-      navigation.reset({
-        index: 0,
-        routes: [{ name: 'DrawerNavigator' }],
+    signInWithEmailAndPassword(auth_mod, email, senha).then((userCredential) => {
+        setWarning(false);
+        console.log("Usuário logado com sucesso!", JSON.stringify(userCredential.user.uid));
+        navigation.reset({
+          index: 0,
+          routes: [{ name: 'DrawerNavigator' }],
+        });
+      }).catch((error) => {
+        setWarning(true);
+        console.log("Erro ao fazer login: ", JSON.stringify(error));
       });
-    } else {
-      setWarning(true);
-    }
   }
   const createAccount = () =>{
     navigation.navigate('NovaConta')

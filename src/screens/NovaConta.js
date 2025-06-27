@@ -1,15 +1,9 @@
 import React, {useState} from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
-import Icon from 'react-native-vector-icons/MaterialIcons';
 import {useNavigation} from '@react-navigation/native';
-import { initializeFirestore, collection, addDoc} from "firebase/firestore";
-import app from '../config/firebase';
-
-const db = initializeFirestore(app, {experimentalForceLongPolling: true});
-const userCollection = collection(db, 'users');
-
-
+import { auth_mod } from '../config/firebase';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 
 function NovaConta(){
     const [email, setEmail] = useState('');
@@ -34,21 +28,14 @@ function NovaConta(){
         return;
       }
       setWarning(false);
-      const docUser = {
-        email: email,
-        senha: senha1
-      };
-
-      addDoc(userCollection, docUser)
-        .then((docRef) => {
-          console.log("Usuário cadastrado com sucesso!" + docRef.id);
-          // Você pode navegar para outra tela aqui, se quiser
-        })
-        .catch((error) => {
-          console.error("Erro ao cadastrar usuário: ", error);
+      
+      createUserWithEmailAndPassword(auth_mod, email, senha1).then((userCredential) => {
+          console.log("Usuário cadastrado com sucesso!", JSON.stringify(userCredential.user.uid));
+          navigation.navigate('Login');
+        }).catch((error) => {
+          console.error("Erro ao cadastrar usuário: ", JSON.stringify(error));
+          setWarning(true);
         });
-
-      navigation.navigate('Login');
     }
 
     return(
