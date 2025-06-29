@@ -15,11 +15,15 @@ import NovaPesquisa from './src/screens/NovaPesquisa';
 import Coleta from './src/screens/Coleta';
 import Home from './src/screens/Home';
 import Relatorio from './src/screens/Relatorio';
+import { Provider } from "react-redux";
+import { store } from "./redux/store";
+
 
 
 const Stack = createStackNavigator();
 const App = () => {
   return(
+    <Provider store={store}>
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen options={{headerShown: false}}
@@ -100,6 +104,7 @@ const App = () => {
         />
       </Stack.Navigator>
     </NavigationContainer>
+    </Provider>
   )
 }
 

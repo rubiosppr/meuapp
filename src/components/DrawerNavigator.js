@@ -9,16 +9,18 @@ import { View, Text, StyleSheet } from 'react-native';
 import Home from '../screens/Home';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useNavigation } from '@react-navigation/native';
+import {useSelector} from 'react-redux';
 
 const Drawer = createDrawerNavigator();
 
 const CustomDrawerContent = (props) => {
   const navigation = useNavigation();
+  const email = useSelector((state) => state.user.email);
 
   return (
     <DrawerContentScrollView {...props} contentContainerStyle={styles.drawerContainer}>
       <View style={styles.header}>
-        <Text style={styles.email}>usuario@dominio.com</Text>
+        <Text style={styles.email}>{email}</Text>
         <View style={styles.divider} />
       </View>
       <DrawerItemList {...props} />

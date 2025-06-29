@@ -5,12 +5,15 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import {useNavigation} from '@react-navigation/native';
 import { auth_mod } from '../config/firebase';
 import { signInWithEmailAndPassword } from 'firebase/auth';
+import { useDispatch } from "react-redux"
+import { reducerSetUser } from "../../redux/userSlice"
 
 function Login(){
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
   const [txtWarning, setWarning] = useState(false)
   const navigation = useNavigation();
+  const dispatch = useDispatch()
 
   const handleLogin = async () => {
     const emailRegex = /^(([^<>()\[\]\.,;:\s@"]+(\.[^<>()\[\]\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -21,7 +24,9 @@ function Login(){
     }
     signInWithEmailAndPassword(auth_mod, email, senha).then((userCredential) => {
         setWarning(false);
-        console.log("Usuário logado com sucesso!", JSON.stringify(userCredential.user.uid));
+        const userId = userCredential.user.uid;
+        console.log("Usuário logado com sucesso!", JSON.stringify(userId));
+        dispatch(reducerSetUser({id: userId, email: email}))
         navigation.reset({
           index: 0,
           routes: [{ name: 'DrawerNavigator' }],
