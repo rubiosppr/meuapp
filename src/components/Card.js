@@ -1,10 +1,81 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Platform } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Platform, Image } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import storage from '@react-native-firebase/storage';
+import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
+import { Alert } from 'react-native';
+import uuid from 'react-native-uuid'; 
 
 const Card = ({ nome, setNome, data, setData, errors, setErrors }) => {
   const [showDatePicker, setShowDatePicker] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
+
+  const pickImage = async (source) => {
+    const options = {
+      mediaType: 'photo',
+      saveToPhotos: true,
+    };
+
+    const callback = async (response) => {
+      if (response.didCancel) {
+        console.log('Seleção cancelada');
+      } else if (response.errorCode) {
+        console.error('Erro:', response.errorMessage);
+      } else {
+        const asset = response.assets[0];
+        const { uri } = asset;
+        const uploadUri = Platform.OS === 'ios' ? uri.replace('file://', '') : uri;
+        const imageName = uuid.v4();
+
+        const reference = storage().ref(`/pesquisas/${imageName}.jpg`);
+
+        try {
+          await reference.putFile(uploadUri);
+          const downloadUrl = await reference.getDownloadURL();
+
+          Alert.alert('Imagem enviada com sucesso!');
+          console.log('URL da imagem:', downloadUrl);
+
+          setSelectedImage(downloadUrl);
+        } catch (error) {
+          console.error('Erro ao enviar imagem:', error);
+          Alert.alert('Erro ao enviar imagem');
+        }
+      }
+    };
+
+
+    if (source === 'camera') {
+      launchCamera(options, callback);
+    } else {
+      launchImageLibrary(options, callback);
+    }
+  };
+
+  const handleImagePickAndUpload = () => {
+    Alert.alert(
+      'Selecionar imagem',
+      'Escolha de onde deseja obter a imagem',
+      [
+        {
+          text: 'Câmera',
+          onPress: () => pickImage('camera'),
+        },
+        {
+          text: 'Galeria',
+          onPress: () => pickImage('gallery'),
+        },
+        {
+          text: 'Cancelar',
+          style: 'cancel',
+        },
+      ],
+      { cancelable: true }
+    );
+  };
+
+
   const handleDateChange = (event, selectedDate) => {
     setShowDatePicker(false);
     if (selectedDate) {
@@ -26,6 +97,7 @@ const Card = ({ nome, setNome, data, setData, errors, setErrors }) => {
         }}
       />
       {errors.nome && <Text style={styles.errorText}>Preencha no nome da pesquisa</Text>}
+
       <Text style={styles.label}>Data</Text>
       <View style={styles.dateInputContainer}>
         <TextInput
@@ -42,14 +114,12 @@ const Card = ({ nome, setNome, data, setData, errors, setErrors }) => {
             if (formattedText) setErrors((prev) => ({ ...prev, data: false }));
           }}
         />
-        <TouchableOpacity
-          style={styles.datePickerIcon}
-          onPress={() => setShowDatePicker(true)}
-        >
+        <TouchableOpacity style={styles.datePickerIcon} onPress={() => setShowDatePicker(true)}>
           <Icon name="calendar-month" size={24} color="#808080" />
         </TouchableOpacity>
       </View>
       {errors.data && <Text style={styles.errorText}>Preencha a Data</Text>}
+
       {showDatePicker && (
         <DateTimePicker
           value={data ? new Date(data.split('/').reverse().join('-')) : new Date()}
@@ -58,10 +128,18 @@ const Card = ({ nome, setNome, data, setData, errors, setErrors }) => {
           onChange={handleDateChange}
         />
       )}
+
       <Text style={styles.label}>Imagem</Text>
-      <TouchableOpacity style={styles.imagePicker}>
+      <TouchableOpacity style={styles.imagePicker} onPress={handleImagePickAndUpload}>
         <Text style={styles.imagePickerText}>Câmera/Galeria de imagens</Text>
       </TouchableOpacity>
+      {selectedImage && (
+        <Image
+          source={{ uri: selectedImage }}
+          style={{ width: 200, height: 200, alignSelf: 'center', marginTop: 10 }}
+          resizeMode="contain"
+        />
+      )}
     </View>
   );
 };
