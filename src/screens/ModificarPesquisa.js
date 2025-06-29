@@ -2,30 +2,68 @@ import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import Card from '../components/Card';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import db from '../config/firestore';
+import { doc, updateDoc, deleteDoc, getDoc } from 'firebase/firestore';
 
 
 function ModificarPesquisa() {
   const navigation = useNavigation();
-
+  const route = useRoute();
+  const { pesquisaId } = route.params || {};
   const [nome, setNome] = useState('');
   const [data, setData] = useState('');
   const [errors, setErrors] = useState({ nome: false, data: false });
 
 
-  const handleEditar = () => {
+  React.useEffect(() => {
+    if (pesquisaId) {
+      const fetchPesquisa = async () => {
+        try {
+          const docSnap = await getDoc(doc(db, 'pesquisas', pesquisaId));
+          if (docSnap.exists()) {
+            const pesquisa = docSnap.data();
+            setNome(pesquisa.nome);
+            setData(pesquisa.data);
+          }
+        } catch (error) {
+          console.error('Erro ao buscar pesquisa:', error);
+        }
+      };
+      fetchPesquisa();
+    }
+  }, [pesquisaId]);
 
+
+  const handleEditar = async () => {
     const newErrors = {
       nome: !nome,
       data: !data,
     };
     setErrors(newErrors);
-
-
     const hasErrors = Object.values(newErrors).some((error) => error);
-    if (!hasErrors) {
-      navigation.navigate('DrawerNavigator', { screen: 'Pesquisas' }); 
-      console.log('Edição realizada com sucesso!');
+    if (!hasErrors && pesquisaId) {
+      try {
+        await updateDoc(doc(db, 'pesquisas', pesquisaId), {
+          nome,
+          data,
+        });
+        navigation.navigate('DrawerNavigator', { screen: 'Pesquisas' });
+      } catch (error) {
+        console.error('Erro ao editar pesquisa:', error);
+      }
+    }
+  };
+
+
+  const handleDelete = async () => {
+    if (pesquisaId) {
+      try {
+        await deleteDoc(doc(db, 'pesquisas', pesquisaId));
+        navigation.navigate('DrawerNavigator', { screen: 'Pesquisas' });
+      } catch (error) {
+        console.error('Erro ao apagar pesquisa:', error);
+      }
     }
   };
 
@@ -47,7 +85,7 @@ function ModificarPesquisa() {
         <TouchableOpacity style={styles.button} onPress={handleEditar}>
           <Text style={styles.buttonText}>SALVAR</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.deleteButton} onPress={() => navigation.navigate('PopUp')}>
+        <TouchableOpacity style={styles.deleteButton} onPress={handleDelete}>
           <View style={{ alignItems: 'center' }}>
             <Icon name="delete" size={40} color="#FFFFFF" />
             <Text style={styles.deleteText}>Apagar</Text>

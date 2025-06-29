@@ -1,24 +1,27 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 
 const AcoesPesquisa = () => {
   const navigation = useNavigation();
+  const route = useRoute();
+  const { pesquisaId } = route.params || {};
+
   return (
     <View style={styles.container}>
       <View style={styles.content}>
         <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('ModificarPesquisa')}>
+          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('ModificarPesquisa', { pesquisaId })}>
             <Icon name="edit-document" size={40} color="#FFFFFF" />
             <Text style={styles.buttonText}>Modificar</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Coleta')}>
+          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Coleta', { pesquisaId })}>
             <Icon name="library-add-check" size={40} color="#FFFFFF" />
             <Text style={styles.buttonText}>Coletar</Text>
             <Text style={styles.buttonText2}>Dados</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Relatorio')}>
+          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Relatorio', { pesquisaId })}>
             <Icon name="donut-large" size={40} color="#FFFFFF" />
             <Text style={styles.buttonText}>Relatório</Text>
           </TouchableOpacity>

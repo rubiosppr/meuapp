@@ -1,11 +1,27 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useNavigation } from '@react-navigation/native';
+import db from '../config/firestore';
+import { collection, getDocs } from 'firebase/firestore';
 
 function Home(){
   const navigation = useNavigation();
+  const [pesquisas, setPesquisas] = useState([]);
+
+  useEffect(() => {
+    const fetchPesquisas = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, 'pesquisas'));
+        const data = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        setPesquisas(data);
+      } catch (error) {
+        console.error('Erro ao buscar pesquisas:', error);
+      }
+    };
+    fetchPesquisas();
+  }, []);
 
     return(
         <View style={styles.container}> 
@@ -14,18 +30,12 @@ function Home(){
                 <TextInput style={styles.stdInputBox} placeholder='Insira o termo de busca...'/>
             </View>
             <View style={styles.midleSection}>
-             <TouchableOpacity onPress={() => navigation.navigate('AcoesPesquisa')} >
-                <Image style={styles.images} source={require('../../assets/placeholder.jpg')} />
+              {pesquisas.map((pesquisa, idx) => (
+                <TouchableOpacity key={pesquisa.id} onPress={() => navigation.navigate('AcoesPesquisa', { pesquisaId: pesquisa.id })} >
+                  <Image style={styles.images} source={pesquisa.imagem ? { uri: pesquisa.imagem } : require('../../assets/placeholder.jpg')} />
+                  <Text style={{ color: '#fff', textAlign: 'center' }}>{pesquisa.nome}</Text>
                 </TouchableOpacity>
-
-              <TouchableOpacity onPress={() => navigation.navigate('AcoesPesquisa')} >
-                           <Image style={styles.images} source={require('../../assets/placeholder.jpg')} />
-                           </TouchableOpacity>
-
-                 <TouchableOpacity onPress={() => navigation.navigate('AcoesPesquisa')} >
-                              <Image style={styles.images} source={require('../../assets/placeholder.jpg')} />
-                              </TouchableOpacity>
-
+              ))}
             </View>
             <View style={styles.bottomSection}>
                 <TouchableOpacity style={styles.bottomButtonSearch} onPress={() => navigation.navigate('NovaPesquisa')}>
