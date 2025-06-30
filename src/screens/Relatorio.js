@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import Svg, { G, Path } from 'react-native-svg';
+import { PieChart } from 'react-native-svg-charts';
+import { Text as SvgText } from 'react-native-svg';
 
 const Relatorio = () => {
   const rawData = [
@@ -11,48 +12,44 @@ const Relatorio = () => {
     { categoria: 'Péssimo', porcentagem: 10, cor: '#40E0D0' },
   ];
 
-  const radius = 100; // Raio do gráfico
-  const centerX = radius;
-  const centerY = radius;
+  const pieData = rawData.map((item, index) => ({
+    value: item.porcentagem,
+    svg: { fill: item.cor },
+    key: `pie-${index}`,
+    arc: { outerRadius: '100%', cornerRadius: 5 },
+    categoria: item.categoria,
+  }));
 
-  const total = rawData.reduce((sum, item) => sum + item.porcentagem, 0);
-
-  let cumulativeAngle = 0;
-
-  const createPieSlice = (startAngle, sweepAngle, color) => {
-    const startRadians = (Math.PI / 180) * startAngle;
-    const endRadians = (Math.PI / 180) * (startAngle + sweepAngle);
-
-    const x1 = centerX + radius * Math.cos(startRadians);
-    const y1 = centerY + radius * Math.sin(startRadians);
-
-    const x2 = centerX + radius * Math.cos(endRadians);
-    const y2 = centerY + radius * Math.sin(endRadians);
-
-    const largeArcFlag = sweepAngle > 180 ? 1 : 0;
-
-    const d = [
-      `M ${centerX} ${centerY}`,
-      `L ${x1} ${y1}`,
-      `A ${radius} ${radius} 0 ${largeArcFlag} 1 ${x2} ${y2}`,
-      'Z',
-    ].join(' ');
-
-    return <Path key={startAngle} d={d} fill={color} />;
-  };
-
-  const pieSlices = rawData.map((item) => {
-    const sweepAngle = (item.porcentagem / total) * 360;
-    const slice = createPieSlice(cumulativeAngle, sweepAngle, item.cor);
-    cumulativeAngle += sweepAngle;
-    return slice;
-  });
+  const Labels = ({ slices }) =>
+    slices.map((slice, index) => {
+      const { pieCentroid, data } = slice;
+      return (
+        <SvgText
+          key={`label-${index}`}
+          x={pieCentroid[0]}
+          y={pieCentroid[1]}
+          fill="white"
+          textAnchor="middle"
+          alignmentBaseline="middle"
+          fontSize={12}
+          fontWeight="bold"
+        >
+          {`${data.value}%`}
+        </SvgText>
+      );
+    });
 
   return (
     <View style={styles.container}>
-      <Svg width={radius * 2} height={radius * 2}>
-        <G>{pieSlices}</G>
-      </Svg>
+      <PieChart
+        style={{ height: 220, width: 220 }}
+        data={pieData}
+        innerRadius={20}
+        outerRadius={100}
+        labelRadius={110}
+      >
+        <Labels />
+      </PieChart>
 
       {/* Legenda */}
       <View style={styles.legend}>
