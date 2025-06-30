@@ -15,15 +15,17 @@ import NovaPesquisa from './src/screens/NovaPesquisa';
 import Coleta from './src/screens/Coleta';
 import Home from './src/screens/Home';
 import Relatorio from './src/screens/Relatorio';
-import { Provider } from "react-redux";
+import { Provider, useSelector } from "react-redux";
 import { store } from "./redux/store";
+import { Text } from "react-native";
 
-
-
+// Crie um componente separado para usar hooks do Redux
 const Stack = createStackNavigator();
-const App = () => {
-  return(
-    <Provider store={store}>
+
+const MainNavigator = () => {
+  const searchName = useSelector((state) => state.search.name);
+
+  return (
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen options={{headerShown: false}}
@@ -79,7 +81,11 @@ const App = () => {
         />
         <Stack.Screen options={{ headerStyle: { backgroundColor: '#2B1D62' },
             headerTintColor: '#fff',
-            headerTitle: 'Carnaval',
+            headerTitle: () => (
+              <Text style={{ color: '#fff', fontFamily: 'AveriaLibre-Regular', fontSize: 20 }}>
+                {searchName}
+              </Text>
+            ),
             headerShown: true}}
           name="AcoesPesquisa"
           component={AcoesPesquisa}
@@ -104,9 +110,14 @@ const App = () => {
         />
       </Stack.Navigator>
     </NavigationContainer>
-    </Provider>
-  )
-}
+  );
+};
 
+// O App só retorna o Provider envolvendo o MainNavigator
+const App = () => (
+  <Provider store={store}>
+    <MainNavigator />
+  </Provider>
+);
 
-export default App
+export default App;

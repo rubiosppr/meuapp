@@ -5,10 +5,14 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useNavigation } from '@react-navigation/native';
 import db from '../config/firestore';
 import { collection, getDocs } from 'firebase/firestore';
+import { useDispatch } from "react-redux";
+import { reducerSetSearch } from '../../redux/searchSlice';
 
 function Home(){
   const navigation = useNavigation();
+  const dispatch = useDispatch(); // Adicione isso
   const [pesquisas, setPesquisas] = useState([]);
+  
 
   useEffect(() => {
     const fetchPesquisas = async () => {
@@ -31,7 +35,13 @@ function Home(){
             </View>
             <View style={styles.midleSection}>
               {pesquisas.map((pesquisa, idx) => (
-                <TouchableOpacity key={pesquisa.id} onPress={() => navigation.navigate('AcoesPesquisa', { pesquisaId: pesquisa.id })} >
+                <TouchableOpacity
+                  key={pesquisa.id}
+                  onPress={() => {
+                    dispatch(reducerSetSearch({ name: pesquisa.nome })); // Corrija aqui
+                    navigation.navigate('AcoesPesquisa', { pesquisaId: pesquisa.id });
+                  }}
+                >
                   <Image style={styles.images} source={pesquisa.imagem ? { uri: pesquisa.imagem } : require('../../assets/placeholder.jpg')} />
                   <Text style={{ color: '#fff', textAlign: 'center' }}>{pesquisa.nome}</Text>
                 </TouchableOpacity>
